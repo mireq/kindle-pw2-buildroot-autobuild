@@ -37,7 +37,7 @@ all: buildroot
 	touch .installed_xtools
 
 .downloaded_buildroot:
-	git clone -b 2019.02.x --single-branch --depth 1 https://github.com/buildroot/buildroot.git ${BUILDROOT-DIR}
+	git clone -b 2019.02.x --single-branch --depth 1 https://github.com/mireq/buildroot-kindle-pw2 ${BUILDROOT-DIR}
 	touch .downloaded_buildroot
 
 .configured_buildroot: .downloaded_buildroot .installed_xtools
