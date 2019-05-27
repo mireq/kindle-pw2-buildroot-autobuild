@@ -5,6 +5,7 @@ PATH := $(PATH):$(shell pwd)/crosstool/bin
 
 KINDLE=pw2
 
+CROSS-TOOL-VERSION=crosstool-ng-1.24.0
 CROSS-TOOL-DIR=crosstool-ng
 CROSS-TOOL-BIN-DIR=crosstool
 X-TOOLS-DIR=x-tools
@@ -13,7 +14,9 @@ BUILDROOT-DIR=buildroot
 all: buildroot
 
 .downloaded_ct_ng:
-	git clone -b 1.23-kindle --single-branch --depth 1 https://github.com/NiLuJe/crosstool-ng.git ${CROSS-TOOL-DIR}
+	wget https://github.com/crosstool-ng/crosstool-ng/archive/${CROSS-TOOL-VERSION}.tar.gz
+	tar -xvzf ${CROSS-TOOL-VERSION}.tar.gz
+	mv crosstool-ng-${CROSS-TOOL-VERSION} ${CROSS-TOOL-DIR}
 	touch .downloaded_ct_ng
 
 .bootstrap_ct_ng: .downloaded_ct_ng
@@ -29,7 +32,6 @@ all: buildroot
 
 .installed_xtools: .installed_ct_ng
 	mkdir -p ${X-TOOLS-DIR}
-	cd ${X-TOOLS-DIR}&&ct-ng arm-kindle${KINDLE}-linux-gnueabi
 	cd ${X-TOOLS-DIR}&&cat ../ng-${KINDLE}-config > .config
 	cd ${X-TOOLS-DIR}&&ct-ng oldconfig
 	cd ${X-TOOLS-DIR}&&ct-ng updatetools
@@ -54,7 +56,7 @@ buildroot: .installed_buildroot
 
 distclean:
 	rm -rf ${CROSS-TOOL-DIR}
-	rm -f ${CROSS-TOOL-DIR}.tar.bz2
+	rm -f ${CROSS-TOOL-VERSION}.tar.gz
 	rm -rf ${CROSS-TOOL-BIN-DIR}
 	rm -rf ${X-TOOLS-DIR}
 	rm -rf ${BUILDROOT-DIR}

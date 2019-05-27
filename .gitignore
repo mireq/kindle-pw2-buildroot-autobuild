@@ -8,3 +8,4 @@
 /.installed_xtools
 /.downloaded_buildroot
 /.configured_buildroot
+*.tar.gz
